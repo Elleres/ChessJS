@@ -460,9 +460,15 @@ canvas.onmouseup = (e) => {
                 if (color == "w") {
                     currPeca.x = boardState[boardState.indexOf(sqr) + 8][0]
                     currPeca.y = boardState[boardState.indexOf(sqr) + 8][1]
+                    boardState[currPeca.sqr][2] = 0;
+                    currPeca.sqr = boardState.indexOf(sqr + 8)
+                    boardState[boardState.indexOf(sqr) - 8][2] = 0
                 } else {
                     currPeca.x = boardState[boardState.indexOf(sqr) - 8][0]
                     currPeca.y = boardState[boardState.indexOf(sqr) - 8][1]
+                    boardState[currPeca.sqr][2] = 0;
+                    currPeca.sqr = boardState.indexOf(sqr - 8)
+                    boardState[boardState.indexOf(sqr) - 8][2] = 0
                 }
 
             } else {
@@ -475,7 +481,6 @@ canvas.onmouseup = (e) => {
 
             //ilegal move 
         } else if (draggable && onIt && !legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id, false) || (draggable && onIt && sqr[2] != 0)) {
-            console.log(legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id, true))
             currPeca.x = originX
             currPeca.y = originY
 
