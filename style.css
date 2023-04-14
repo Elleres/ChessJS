@@ -1,0 +1,33 @@
+/*  ctx.drawImage(piecesImage, wKing.sx, wKing.sy, 120, 120, wKing.x, wKing.y, 120, 120);
+    ctx.drawImage(piecesImage, wQueen.sx, wQueen.sy, 120, 120, wQueen.x, wQueen.y, 120, 120);
+    ctx.drawImage(piecesImage, wBishop1.sx, wBishop1.sy, 120, 120, wBishop1.x, wBishop1.y, 120, 120);
+    ctx.drawImage(piecesImage, wBishop2.sx, wBishop2.sy, 120, 120, wBishop2.x, wBishop2.y, 120, 120);
+    ctx.drawImage(piecesImage, wKnight2.sx, wKnight2.sy, 120, 120, wKnight2.x, wKnight2.y, 120, 120);
+    ctx.drawImage(piecesImage, wKnight1.sx, wKnight1.sy, 120, 120, wKnight1.x, wKnight1.y, 120, 120);
+    ctx.drawImage(piecesImage, wRook1.sx, wRook1.sy, 120, 120, wRook1.x, wRook1.y, 120, 120);
+    ctx.drawImage(piecesImage, wRook2.sx, wRook2.sy, 120, 120, wRook2.x, wRook2.y, 120, 120);
+    ctx.drawImage(piecesImage, wPawn1.sx, wPawn1.sy, 120, 120, wPawn1.x, wPawn1.y, 120, 120);
+    ctx.drawImage(piecesImage, wPawn2.sx, wPawn2.sy, 120, 120, wPawn2.x, wPawn2.y, 120, 120);
+    ctx.drawImage(piecesImage, wPawn3.sx, wPawn3.sy, 120, 120, wPawn3.x, wPawn3.y, 120, 120);
+    ctx.drawImage(piecesImage, wPawn4.sx, wPawn4.sy, 120, 120, wPawn4.x, wPawn4.y, 120, 120);
+    ctx.drawImage(piecesImage, wPawn5.sx, wPawn5.sy, 120, 120, wPawn5.x, wPawn5.y, 120, 120);
+    ctx.drawImage(piecesImage, wPawn6.sx, wPawn6.sy, 120, 120, wPawn6.x, wPawn6.y, 120, 120);
+    ctx.drawImage(piecesImage, wPawn7.sx, wPawn7.sy, 120, 120, wPawn7.x, wPawn7.y, 120, 120);
+    ctx.drawImage(piecesImage, wPawn8.sx, wPawn8.sy, 120, 120, wPawn8.x, wPawn8.y, 120, 120);
+
+    ctx.drawImage(piecesImage, bKing.sx, bKing.sy, 120, 120, bKing.x, bKing.y, 120, 120);
+    ctx.drawImage(piecesImage, bQueen.sx, bQueen.sy, 120, 120, bQueen.x, bQueen.y, 120, 120);
+    ctx.drawImage(piecesImage, bRook1.sx, bRook1.sy, 120, 120, bRook1.x, bRook1.y, 120, 120);
+    ctx.drawImage(piecesImage, bRook2.sx, bRook2.sy, 120, 120, bRook2.x, bRook2.y, 120, 120);
+    ctx.drawImage(piecesImage, bBishop1.sx, bBishop1.sy, 120, 120, bBishop1.x, bBishop1.y, 120, 120);
+    ctx.drawImage(piecesImage, bBishop2.sx, bBishop2.sy, 120, 120, bBishop2.x, bBishop2.y, 120, 120);
+    ctx.drawImage(piecesImage, bKnight2.sx, bKnight2.sy, 120, 120, bKnight2.x, bKnight2.y, 120, 120);
+    ctx.drawImage(piecesImage, bKnight1.sx, bKnight1.sy, 120, 120, bKnight1.x, bKnight1.y, 120, 120);
+    ctx.drawImage(piecesImage, bPawn1.sx, bPawn1.sy, 120, 120, bPawn1.x, bPawn1.y, 120, 120);
+    ctx.drawImage(piecesImage, bPawn2.sx, bPawn2.sy, 120, 120, bPawn2.x, bPawn2.y, 120, 120);
+    ctx.drawImage(piecesImage, bPawn3.sx, bPawn3.sy, 120, 120, bPawn3.x, bPawn3.y, 120, 120);
+    ctx.drawImage(piecesImage, bPawn4.sx, bPawn4.sy, 120, 120, bPawn4.x, bPawn4.y, 120, 120);
+    ctx.drawImage(piecesImage, bPawn5.sx, bPawn5.sy, 120, 120, bPawn5.x, bPawn5.y, 120, 120);
+    ctx.drawImage(piecesImage, bPawn6.sx, bPawn6.sy, 120, 120, bPawn6.x, bPawn6.y, 120, 120);
+    ctx.drawImage(piecesImage, bPawn7.sx, bPawn7.sy, 120, 120, bPawn7.x, bPawn7.y, 120, 120);
+    ctx.drawImage(piecesImage, bPawn8.sx, bPawn8.sy, 120, 120, bPawn8.x, bPawn8.y, 120, 120); */
