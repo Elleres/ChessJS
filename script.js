@@ -140,11 +140,27 @@ function legalMove(starting, ending, id) {
                 return true
             } else return false;
         case 11:// rook
-            if (y % 9 == 0 || goodHorse.includes(y)) {
-                return false
-            } else if (y % 8 == 0 || y < 8) {
-                return true
+        if (y % 9 == 0 || goodHorse.includes(y)) {
+            return false
+        } else if (y % 8 == 0 || y < 8) {
+            let i;
+            if (y % 8 == 0) i = 8;
+            else i = 1;
+            if (ending > starting) {
+                currSqr = starting + i
+                for (currSqr; currSqr < ending; currSqr += i) {
+                    if (boardState[currSqr][2] != 0)
+                        return false;
+                }
+            } else {
+                currSqr = ending + i
+                for (currSqr; currSqr < starting; currSqr += i) {
+                    if (boardState[currSqr][2] != 0)
+                        return false;
+                }
             }
+            return true
+        }
         case 12://knight
 
             if (goodHorse.includes(Math.abs(x))) {
@@ -194,6 +210,22 @@ function legalMove(starting, ending, id) {
             if (y % 9 == 0 || goodHorse.includes(y)) {
                 return false
             } else if (y % 8 == 0 || y < 8) {
+                let i;
+                if (y % 8 == 0) i = 8;
+                else i = 1;
+                if (ending > starting) {
+                    currSqr = starting + i
+                    for (currSqr; currSqr < ending; currSqr += i) {
+                        if (boardState[currSqr][2] != 0)
+                            return false;
+                    }
+                } else {
+                    currSqr = ending + i
+                    for (currSqr; currSqr < starting; currSqr += i) {
+                        if (boardState[currSqr][2] != 0)
+                            return false;
+                    }
+                }
                 return true
             }
         case 22://knight
