@@ -130,7 +130,10 @@ function legalMove(starting, ending, id, cap) {
                 if (starting + 8 == ending) {
                     return true
                 } else if (dWPawn.includes(starting) && starting + 16 == ending) {
-
+                    if (boardState[starting + 8][2] != 0) {
+                        return false
+                    }
+                    return true
                 } return false;
             } else {
                 if (starting + 7 == ending || starting + 9 == ending) {
@@ -247,6 +250,9 @@ function legalMove(starting, ending, id, cap) {
                 if (starting - 8 == ending) {
                     return true
                 } else if (dBPawn.includes(starting) && starting - 16 == ending) {
+                    if (boardState[starting - 8][2] != 0) {
+                        return false
+                    }
                     return true
                 } return false;
             } else {
