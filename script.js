@@ -113,9 +113,35 @@ var bPawn6 = new Piece(600, 720, 670, 140, 20, 53)
 var bPawn7 = new Piece(720, 720, 670, 140, 20, 54)
 var bPawn8 = new Piece(840, 720, 670, 140, 20, 55)
 
-
+var turn = 0;
 var enPass = false;
 var enPassSqr;
+var blackProm = [0, 1, 2, 3, 4, 5, 6, 7]
+var whiteProm = [63, 62, 61, 60, 59, 58, 57, 56]
+
+function promotion(data) {
+    console.log(data)
+    console.log(listaPecas)
+    if (whatColor(data.id) == 'b') {
+        listaPecas.forEach(piece => {
+            if (piece.x == data.x && piece.y == data.y && piece.id == data.id) {
+                piece.sx = 140
+                piece.sy = 140
+                piece.id = 24
+            }
+
+        })
+    } else {
+        listaPecas.forEach(piece => {
+            if (piece.x == data.x && piece.y == data.y && piece.id == data.id) {
+                piece.sx = 140
+                piece.sy = 7
+                piece.id = 14
+            }
+
+        })
+    }
+}
 function legalMove(starting, ending, id, cap) {
     let goodHorse = [6, 15, 17, 10]
     let goodKing = [9, 8, 7, 1]
@@ -404,7 +430,6 @@ function drawPieces() {
 
 drawPieces();
 var draggable = false;
-var isPawn = 0;
 var originX;
 var originY;
 var currPeca;
@@ -416,10 +441,24 @@ canvas.onmousedown = (e) => {
             e.layerX >= peca.x &&
             e.layerY <= peca.y + 120 &&
             e.layerY >= peca.y) {
-            draggable = true;
-            currPeca = peca
-            originX = peca.x
-            originY = peca.y
+            switch (turn % 2) {
+                default:
+                    if (whatColor(peca.id) == 'b') {
+                        draggable = true;
+                        currPeca = peca
+                        originX = peca.x
+                        originY = peca.y
+                    }
+                    break
+                case 0:
+                    if (whatColor(peca.id) == 'w') {
+                        draggable = true;
+                        currPeca = peca
+                        originX = peca.x
+                        originY = peca.y
+                    }
+                    break
+            }
         };
 
     });
@@ -434,19 +473,19 @@ canvas.onmousemove = (e) => {
 canvas.onmouseup = (e) => {
     boardState.forEach(sqr => {
         var onIt = (e.layerX <= sqr[0] + 120 && e.layerX >= sqr[0] && e.layerY <= sqr[1] + 120 && e.layerY >= sqr[1])
-        if (sqr[2] == 10 || sqr[2] == 20) {
-            isPawn = true;
-        } else {
-            isPawn = false
-        }
+        var color = whatColor(currPeca.id)
         // legal move without capture
         if (draggable && onIt && sqr[2] == 0 && legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id, false)) {
+
             currPeca.x = sqr[0]
             currPeca.y = sqr[1]
             boardState[currPeca.sqr][2] = 0
             currPeca.sqr = boardState.indexOf(sqr)
             sqr[2] = currPeca.id
-
+            if (color == 'w' && whiteProm.includes(currPeca.sqr) && currPeca.id == 10 || color == 'b' && blackProm.includes(currPeca.sqr) && currPeca.id == 20) {
+                promotion(currPeca)
+            }
+            turn += 1
             // legal capture move
         } else if (draggable && onIt && sqr[2] != 0 && legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id, true) && whatColor(sqr[2]) != whatColor(currPeca.id)) {
             listaPecas.forEach(piece => {
@@ -454,38 +493,49 @@ canvas.onmouseup = (e) => {
                     delete listaPecas[listaPecas.indexOf(piece)]
                 }
 
-            });
+            }); //en passant
             if (enPass == true && boardState.indexOf(sqr) == enPassSqr) {
-                let color = whatColor(currPeca.id)
-                if (color == "w") {
+
+                if (color == "w") { //white statement
                     currPeca.x = boardState[boardState.indexOf(sqr) + 8][0]
                     currPeca.y = boardState[boardState.indexOf(sqr) + 8][1]
                     boardState[currPeca.sqr][2] = 0;
-                    currPeca.sqr = boardState.indexOf(sqr + 8)
-                    boardState[boardState.indexOf(sqr) - 8][2] = 0
-                } else {
+                    currPeca.sqr = boardState.indexOf(sqr) + 8
+                    boardState[boardState.indexOf(sqr) + 8][2] = currPeca.id
+                    boardState[boardState.indexOf(sqr)][2] = 0
+                    if (color == 'w' && whiteProm.includes(currPeca.sqr) && currPeca.id == 10 || color == 'b' && blackProm.includes(currPeca.sqr) && currPeca.id == 20) {
+                        promotion(currPeca)
+                    }
+                } else { //black statement
                     currPeca.x = boardState[boardState.indexOf(sqr) - 8][0]
                     currPeca.y = boardState[boardState.indexOf(sqr) - 8][1]
                     boardState[currPeca.sqr][2] = 0;
-                    currPeca.sqr = boardState.indexOf(sqr - 8)
-                    boardState[boardState.indexOf(sqr) - 8][2] = 0
+                    currPeca.sqr = boardState.indexOf(sqr) - 8
+                    boardState[boardState.indexOf(sqr) - 8][2] = currPeca.id
+                    boardState[boardState.indexOf(sqr)][2] = 0
+                    if (color == 'w' && whiteProm.includes(currPeca.sqr) && currPeca.id == 10 || color == 'b' && blackProm.includes(currPeca.sqr) && currPeca.id == 20) {
+                        promotion(currPeca)
+                    }
                 }
 
-            } else {
+            } else { // legal capture but not en passant
+
                 currPeca.x = sqr[0]
                 currPeca.y = sqr[1]
                 boardState[currPeca.sqr][2] = 0;
                 currPeca.sqr = boardState.indexOf(sqr)
                 sqr[2] = currPeca.id
+                if (color == 'w' && whiteProm.includes(currPeca.sqr) && currPeca.id == 10 || color == 'b' && blackProm.includes(currPeca.sqr) && currPeca.id == 20) {
+                    promotion(currPeca)
+                }
             }
-
+            turn += 1
             //ilegal move 
         } else if (draggable && onIt && !legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id, false) || (draggable && onIt && sqr[2] != 0)) {
             currPeca.x = originX
             currPeca.y = originY
 
         }
-
     })
     draggable = false;
 
