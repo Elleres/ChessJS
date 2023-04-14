@@ -473,7 +473,11 @@ canvas.onmousemove = (e) => {
 canvas.onmouseup = (e) => {
     boardState.forEach(sqr => {
         var onIt = (e.layerX <= sqr[0] + 120 && e.layerX >= sqr[0] && e.layerY <= sqr[1] + 120 && e.layerY >= sqr[1])
-        var color = whatColor(currPeca.id)
+        try {
+            var color = whatColor(currPeca.id)
+        } catch (error) {
+
+        }
         // legal move without capture
         if (draggable && onIt && sqr[2] == 0 && legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id, false)) {
 
