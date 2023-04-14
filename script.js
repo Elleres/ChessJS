@@ -114,6 +114,8 @@ var bPawn7 = new Piece(720, 720, 670, 140, 20, 54)
 var bPawn8 = new Piece(840, 720, 670, 140, 20, 55)
 
 
+var enPass = false;
+var enPassSqr;
 function legalMove(starting, ending, id, cap) {
     let goodHorse = [6, 15, 17, 10]
     let goodKing = [9, 8, 7, 1]
@@ -132,15 +134,22 @@ function legalMove(starting, ending, id, cap) {
                 } else if (dWPawn.includes(starting) && starting + 16 == ending) {
                     if (boardState[starting + 8][2] != 0) {
                         return false
+                    } if (boardState[ending - 1][2] == 20 || boardState[ending + 1][2] == 20) {
+                        enPass = true;
+                        enPassSqr = ending
                     }
                     return true
-                } return false;
-            } else {
-                if (starting + 7 == ending || starting + 9 == ending) {
+                }
+                return false;
+            }
+            else {
+                if (enPass && (starting == enPassSqr - 1 || starting == enPassSqr + 1 && ending == enPassSqr)) {
+                    return true
+                }
+                else if (starting + 7 == ending || starting + 9 == ending) {
                     return true
                 }
             }
-            return false;
 
         case 11:// rook
             if (y % 9 == 0 || goodHorse.includes(y)) {
@@ -252,11 +261,19 @@ function legalMove(starting, ending, id, cap) {
                 } else if (dBPawn.includes(starting) && starting - 16 == ending) {
                     if (boardState[starting - 8][2] != 0) {
                         return false
+                    } if (boardState[ending - 1][2] == 10 || boardState[ending + 1][2] == 10) {
+                        enPass = true;
+                        enPassSqr = ending
                     }
                     return true
-                } return false;
-            } else {
-                if (starting - 7 == ending || starting - 9 == ending) {
+                }
+                return false;
+            }
+            else {
+                if (enPass && (starting == enPassSqr - 1 || starting == enPassSqr + 1 && ending == enPassSqr)) {
+                    return true
+                }
+                else if (starting - 7 == ending || starting - 9 == ending) {
                     return true
                 }
             }
@@ -438,14 +455,27 @@ canvas.onmouseup = (e) => {
                 }
 
             });
-            currPeca.x = sqr[0]
-            currPeca.y = sqr[1]
-            boardState[currPeca.sqr][2] = 0;
-            currPeca.sqr = boardState.indexOf(sqr)
-            sqr[2] = currPeca.id
+            if (enPass == true && boardState.indexOf(sqr) == enPassSqr) {
+                let color = whatColor(currPeca.id)
+                if (color == "w") {
+                    currPeca.x = boardState[boardState.indexOf(sqr) + 8][0]
+                    currPeca.y = boardState[boardState.indexOf(sqr) + 8][1]
+                } else {
+                    currPeca.x = boardState[boardState.indexOf(sqr) - 8][0]
+                    currPeca.y = boardState[boardState.indexOf(sqr) - 8][1]
+                }
+
+            } else {
+                currPeca.x = sqr[0]
+                currPeca.y = sqr[1]
+                boardState[currPeca.sqr][2] = 0;
+                currPeca.sqr = boardState.indexOf(sqr)
+                sqr[2] = currPeca.id
+            }
 
             //ilegal move 
         } else if (draggable && onIt && !legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id, false) || (draggable && onIt && sqr[2] != 0)) {
+            console.log(legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id, true))
             currPeca.x = originX
             currPeca.y = originY
 
