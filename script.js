@@ -206,8 +206,8 @@ pawn: 10
 rook: 11 
 knight:12
 bishop: 13
-king:15
 queen: 14
+king:15
 */
 listaPecas.push(wKing, wQueen, wBishop1, wBishop2, wKnight1, wKnight2, wRook1, wRook2, wPawn1, wPawn2, wPawn3, wPawn4, wPawn5, wPawn6, wPawn7, wPawn8, bKing, bQueen, bBishop1, bBishop2, bKnight1, bKnight2, bRook1, bRook2, bPawn1, bPawn2, bPawn3, bPawn4, bPawn5, bPawn6, bPawn7, bPawn8)
 
@@ -218,8 +218,11 @@ function drawPieces() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawBoard()
 
-    for (i = 0; i < 32; i++) {
-        ctx.drawImage(piecesImage, listaPecas[i].sx, listaPecas[i].sy, 120, 120, listaPecas[i].x, listaPecas[i].y, 120, 120)
+    for (i = 0; i < listaPecas.length; i++) {
+        if (listaPecas[i] == undefined) {
+            continue
+        } else
+            ctx.drawImage(piecesImage, listaPecas[i].sx, listaPecas[i].sy, 120, 120, listaPecas[i].x, listaPecas[i].y, 120, 120);
     }
     requestAnimationFrame(drawPieces);
 };
@@ -264,14 +267,25 @@ canvas.onmouseup = (e) => {
             boardState[currPeca.sqr][2] = 0
             currPeca.sqr = boardState.indexOf(sqr)
             sqr[2] = currPeca.id
-            // ilegal move
+            // legal capture move
+        } else if (draggable && onIt && sqr[2] != 0 && legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id) && whatColor(sqr[2]) != whatColor(currPeca.id)) {
+            listaPecas.forEach(piece => {
+                if (piece.x == sqr[0] && piece.y == sqr[1] && piece.id == sqr[2]) {
+                    delete listaPecas[listaPecas.indexOf(piece)]
+                    console.log(listaPecas)
+                }
+
+            });
+            currPeca.x = sqr[0]
+            currPeca.y = sqr[1]
+            currPeca.sqr = boardState.indexOf(sqr)
+            boardState[currPeca.sqr][2] = 0;
+            sqr[2] = currPeca.id
+            //ilegal move with 
         } else if (draggable && onIt && !legalMove() || (draggable && onIt && sqr[2] != 0)) {
             currPeca.x = originX
             currPeca.y = originY
-            console.log(sqr[2] != 0)
-            //legal move with capture
-        } else if (draggable && onIt && sqr[2] != 0 && legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id) && whatColor(sqr[2]) != whatColor(currPeca.id)) {
-            console.log("captura")
+
         }
     })
     draggable = false;
@@ -281,4 +295,3 @@ canvas.onmouseup = (e) => {
 canvas.onmouseleave = (e) => {
     draggable = false
 }
-
