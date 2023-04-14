@@ -46,7 +46,7 @@ var boardState = [[0, 0, 11], [120, 0, 12], [240, 0, 13], [360, 0, 15], [480, 0,
 [0, 480, 0], [120, 480, 0], [240, 480, 0], [360, 480, 0], [480, 480, 0], [600, 480, 0], [720, 480, 0], [840, 480, 0],
 [0, 600, 0], [120, 600, 0], [240, 600, 0], [360, 600, 0], [480, 600, 0], [600, 600, 0], [720, 600, 0], [840, 600, 0],
 [0, 720, 20], [120, 720, 20], [240, 720, 20], [360, 720, 20], [480, 720, 20], [600, 720, 20], [720, 720, 20], [840, 720, 20],
-[0, 840, 12], [120, 840, 12], [240, 840, 13], [360, 840, 14], [480, 840, 15], [600, 840, 23], [720, 840, 22], [840, 840, 21]]
+[0, 840, 21], [120, 840, 22], [240, 840, 23], [360, 840, 24], [480, 840, 25], [600, 840, 23], [720, 840, 22], [840, 840, 21]]
 var listTemp = [];
 
 /*
@@ -108,8 +108,8 @@ var wPawn6 = new Piece(600, 120, 670, 7, 10, 13)
 var wPawn7 = new Piece(720, 120, 670, 7, 10, 14)
 var wPawn8 = new Piece(840, 120, 670, 7, 10, 15)
 
-var bKing = new Piece(360, 840, 8, 140, 25, 59)
-var bQueen = new Piece(480, 840, 140, 140, 24, 60)
+var bKing = new Piece(480, 840, 8, 140, 25, 59)
+var bQueen = new Piece(360, 840, 140, 140, 24, 60)
 var bBishop1 = new Piece(240, 840, 275, 140, 23, 58)
 var bBishop2 = new Piece(600, 840, 275, 140, 23, 61)
 var bKnight1 = new Piece(120, 840, 410, 140, 22, 57)
@@ -135,63 +135,102 @@ function legalMove(starting, ending, id) {
         default:
             return 0
         //white
-        case 10:
+        case 10: // pawn
             if (starting + 8 == ending) {
                 return true
             } else return false;
-        case 11:
+        case 11:// rook
             if (y % 9 == 0 || goodHorse.includes(y)) {
                 return false
             } else if (y % 8 == 0 || y < 8) {
                 return true
             }
-        case 12:
+        case 12://knight
 
             if (goodHorse.includes(Math.abs(x))) {
                 return true
             }
             else return false;
-        case 13:
+        case 13://bishop
             if (y % 9 == 0 || y % 7 == 0) {
+                let i;
+                if (y % 9 == 0)
+                    i = 9;
+                else i = 7;
+                if (ending > starting) {
+                    let currSqr = starting + i;
+                    for (currSqr; currSqr < ending; currSqr += i) {
+                        if (boardState[currSqr][2] != 0) {
+                            return false
+                        }
+                    }
+                }
+                else {
+                    let currSqr = ending + i;
+                    for (currSqr; currSqr < starting; currSqr += i) {
+                        if (boardState[currSqr][2] != 0) {
+                            return false;
+                        }
+                    }
+                }
                 return true
             }
             return false
-        case 14:
+        case 14://queen
             if (goodHorse.includes(y)) return false;
             else if (((y % 8 == 0 || y < 8) || (y % 9 == 0 || y % 7 == 0))) {
                 return true
             }
-        case 15:
+        case 15://king
             if (goodKing.includes(y)) {
                 return true
             } return false
         //black
-        case 20:
+        case 20://pawn
             if (starting - 8 == ending) {
                 return true
             } return false;
-        case 21:
+        case 21://rook
             if (y % 9 == 0 || goodHorse.includes(y)) {
                 return false
             } else if (y % 8 == 0 || y < 8) {
                 return true
             }
-        case 22:
+        case 22://knight
             if (goodHorse.includes(Math.abs(x))) {
                 return true
             }
             else return false;
-        case 23:
+        case 23://bishop
             if (y % 9 == 0 || y % 7 == 0) {
+                let i;
+                if (y % 9 == 0)
+                    i = 9;
+                else i = 7;
+                if (ending > starting) {
+                    let currSqr = starting + i;
+                    for (currSqr; currSqr < ending; currSqr += i) {
+                        if (boardState[currSqr][2] != 0) {
+                            return false
+                        }
+                    }
+                }
+                else {
+                    let currSqr = ending + i;
+                    for (currSqr; currSqr < starting; currSqr += i) {
+                        if (boardState[currSqr][2] != 0)
+                            return false;
+                    }
+                }
                 return true
             }
             return false
-        case 24:
+        case 24://queen
             if (goodHorse.includes(y)) return false;
             else if (((y % 8 == 0 || y < 8) || (y % 9 == 0 || y % 7 == 0))) {
                 return true
             }
-        case 25:
+        case 25://king
             if (goodKing.includes(y)) {
                 return true
             } return false
@@ -200,18 +239,8 @@ function legalMove(starting, ending, id) {
 
 }
 
-/*
-<white>
-pawn: 10
-rook: 11 
-knight:12
-bishop: 13
-queen: 14
-king:15
-*/
 listaPecas.push(wKing, wQueen, wBishop1, wBishop2, wKnight1, wKnight2, wRook1, wRook2, wPawn1, wPawn2, wPawn3, wPawn4, wPawn5, wPawn6, wPawn7, wPawn8, bKing, bQueen, bBishop1, bBishop2, bKnight1, bKnight2, bRook1, bRook2, bPawn1, bPawn2, bPawn3, bPawn4, bPawn5, bPawn6, bPawn7, bPawn8)
 
-console.log(listaPecas)
 
 function drawPieces() {
 
@@ -262,31 +291,35 @@ canvas.onmouseup = (e) => {
         var onIt = (e.layerX <= sqr[0] + 120 && e.layerX >= sqr[0] && e.layerY <= sqr[1] + 120 && e.layerY >= sqr[1])
         // legal move without capture
         if (draggable && onIt && sqr[2] == 0 && legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id)) {
+
             currPeca.x = sqr[0]
             currPeca.y = sqr[1]
             boardState[currPeca.sqr][2] = 0
             currPeca.sqr = boardState.indexOf(sqr)
             sqr[2] = currPeca.id
+
             // legal capture move
         } else if (draggable && onIt && sqr[2] != 0 && legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id) && whatColor(sqr[2]) != whatColor(currPeca.id)) {
             listaPecas.forEach(piece => {
                 if (piece.x == sqr[0] && piece.y == sqr[1] && piece.id == sqr[2]) {
                     delete listaPecas[listaPecas.indexOf(piece)]
-                    console.log(listaPecas)
                 }
 
             });
             currPeca.x = sqr[0]
             currPeca.y = sqr[1]
-            currPeca.sqr = boardState.indexOf(sqr)
             boardState[currPeca.sqr][2] = 0;
+            currPeca.sqr = boardState.indexOf(sqr)
             sqr[2] = currPeca.id
+
             //ilegal move with 
-        } else if (draggable && onIt && !legalMove() || (draggable && onIt && sqr[2] != 0)) {
+        } else if (draggable && onIt && !legalMove(currPeca.sqr, boardState.indexOf(sqr), currPeca.id) || (draggable && onIt && sqr[2] != 0)) {
+
             currPeca.x = originX
             currPeca.y = originY
 
         }
+
     })
     draggable = false;
 
